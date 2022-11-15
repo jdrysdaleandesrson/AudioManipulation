@@ -1,0 +1,4 @@
+file voltkey.elf
+target remote localhost:3333
+load
+layout asm
