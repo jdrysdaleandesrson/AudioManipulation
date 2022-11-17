@@ -19,6 +19,7 @@ CFLAGS+=-I./src/samd51/include/pio
 CFLAGS+=-I./src/samd51/include
 CFLAGS+=-I./src/samd51/include/component
 CFLAGS+=-I./src/include
+CFLAGS+=-I../kiss_fft130/
 
 CFLAGS+= -D__ATSAME70N21B__
 CFLAGS+= -D pvPortMalloc=malloc
