@@ -23,7 +23,8 @@ int main(void){
 		for(int i =0; i<=1024; i++){	
 	    	//	adc_sync_read_channel(&ADC_0, 0,&adc_val,4);
 			adc_sync_read_channel(&ADC_0, CONF_ADC_0_CHANNEL_0, &adc_val, 2);
-	    		mBuffer[i] = adc_val; 
+	    		mBuffer[i] = adc_val;
+			cpx_in[i] = (kiss_fft_cpx){.r = x, .i = x}; 
 			//io_write("%d\n",adc_val);
 		}
 //		kiss_fft(cfg,cx_in,cx_out);
