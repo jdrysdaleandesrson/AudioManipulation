@@ -28,7 +28,6 @@ extern "C" {
 #include <hal_timer.h>
 
 #include <hal_usart_sync.h>
-#include <hpl_uart_base.h>
 
 extern struct adc_sync_descriptor ADC_0;
 #define CONF_ADC_0_CHANNEL_0 0
@@ -49,7 +48,6 @@ void DAC_0_init(void);
 void TARGET_IO_PORT_init(void);
 void TARGET_IO_CLOCK_init(void);
 void TARGET_IO_init(void);
-void TARGET_IO_example(void);
 
 /**
  * \brief Perform system initialization, initialize pins and clocks for

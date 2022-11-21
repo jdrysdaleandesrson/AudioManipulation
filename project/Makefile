@@ -19,14 +19,14 @@ CFLAGS+=-I./src/samd51/include/pio
 CFLAGS+=-I./src/samd51/include
 CFLAGS+=-I./src/samd51/include/component
 CFLAGS+=-I./src/include
-CFLAGS+=-I../kiss_fft130/
+CFLAGS+=-I../kissfft/
 
 CFLAGS+= -D__ATSAME70N21B__
-CFLAGS+= -D pvPortMalloc=malloc
-CFLAGS+= -D vPortMalloc=malloc
-CFLAGS+= -D pvPortFree=free
-CFLAGS+= -D vPortFree=free
-CFLAGS += -D STACK_SIZE=1024
+#CFLAGS+= -D pvPortMalloc=malloc
+#CFLAGS+= -D vPortMalloc=malloc
+#CFLAGS+= -D pvPortFree=free
+#CFLAGS+= -D vPortFree=free
+#CFLAGS += -D STACK_SIZE=1024
 #CFLAGS += -D printf=rprintf
 
 CC=arm-none-eabi-gcc
@@ -38,8 +38,9 @@ OBJS += main.o \
 	atmel_start.o \
 	hal_adc_sync.o \
 	driver_init.o \
+	utils_ringbuffer.o \
 	hpl_core_m7_base.o \
-	hpl_uart.o \
+	hpl_usart.o \
 	hpl_xdmac.o \
 	utils_assert.o \
 	hpl_afec.o \
@@ -56,7 +57,9 @@ OBJS += main.o \
 	stdio_io.o \
 	hal_io.o \
 	utils_syscalls.o \
-	startup_same70q21b.o
+	startup_same70q21b.o\
+	hal_usart_os.o \
+	kiss_fft.o
 
 OBJ = $(patsubst %,$(ODIR)/%,$(OBJS))
 
