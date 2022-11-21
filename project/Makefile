@@ -59,7 +59,8 @@ OBJS += main.o \
 	utils_syscalls.o \
 	startup_same70q21b.o\
 	hal_usart_os.o \
-	kiss_fft.o
+	kiss_fft.o \
+	kiss_fftr.o
 
 OBJ = $(patsubst %,$(ODIR)/%,$(OBJS))
 

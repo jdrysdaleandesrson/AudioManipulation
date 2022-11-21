@@ -4,6 +4,7 @@
 #include "driver_init.h"
 #include "driver_examples.h"
 #include "kiss_fftr.h"
+#include "_kiss_fft_guts.h"
 
 float mBuffer[1024];
 kiss_fft_cpx cpx_in[1024]; 
@@ -23,16 +24,16 @@ int main(void){
 	kiss_fftr_cfg cfgi = kiss_fftr_alloc(1024,1,0,0);
 	/* Replace with your application code */
 	dac_sync_enable_channel(&DAC_0, 0);
+	printf("hello");
 	while(1){
 		for(int i =0; i<=1024; i++){	
 	    	//	adc_sync_read_channel(&ADC_0, 0,&adc_val,4);
 			adc_sync_read_channel(&ADC_0, CONF_ADC_0_CHANNEL_0, &adc_val, 2);
 	    		rin[i] = adc_val;
-		//	cpx_in[i] = (kiss_fft_cpx){.r = mBufe[i], .i = mBuffer[i]}; 
+		//	cpx_in[i] = (kiss_fft_cpx){.r = mBuffer[i], .i = mBuffer[i]}; 
 			//io_write("%d\n",adc_val);
 		}
 		kiss_fftr(cfg,rin,cpx_out);
-		
 		kiss_fftri(cfg, cpx_out ,rin);
 	}
 
