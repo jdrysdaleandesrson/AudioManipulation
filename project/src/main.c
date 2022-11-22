@@ -17,6 +17,8 @@ int main(void){
 	//float * mData = mFft.getAmplitude();	
 	/* Initializes MCU, drivers and middleware */
 	atmel_start_init();
+	*(uint32_t*)0xE000E010 = 7;
+	*(uint32_t*)0xE000E014 = 0xffff;
 	int adc_val;
 	adc_sync_enable_channel(&ADC_0, CONF_ADC_0_CHANNEL_0);
 	kiss_fftr_cfg cfg = kiss_fftr_alloc(1024, 0 ,0,0 );
@@ -24,15 +26,15 @@ int main(void){
 	/* Replace with your application code */
 	dac_sync_enable_channel(&DAC_0, 0);
 	while(1){
-		for(int i =0; i<=1024; i++){	
+	//	for(int i =0; i<=1024; i++){	
 	    	//	adc_sync_read_channel(&ADC_0, 0,&adc_val,4);
-			adc_sync_read_channel(&ADC_0, CONF_ADC_0_CHANNEL_0, &adc_val, 2);
-	    		rin[i] = adc_val;
+		//	adc_sync_read_channel(&ADC_0, CONF_ADC_0_CHANNEL_0, &adc_val, 2);
+	    	//	rin[i] = adc_val;
 		//	cpx_in[i] = (kiss_fft_cpx){.r = mBuffer[i], .i = mBuffer[i]}; 
 			//io_write("%d\n",adc_val);
-		}
+	//	}
 		kiss_fftr(cfg,rin,cpx_out);
-		/*float scale =1;
+		float scale =1;
 		for(int i =0; i<=512; i++){
 			cpx_out[i].r = cpx_out[i].r * scale;
 			cpx_out[i].r = cpx_out[i].i * scale;
@@ -43,7 +45,7 @@ int main(void){
 			cpx_out[i].r = cpx_out[i].r * scale;
 			cpx_out[i].r = cpx_out[i].i * scale;
 			scale = scale + 0.001;
-		}*/
+		}
 		kiss_fftri(cfg, cpx_out ,rin);
 	
 

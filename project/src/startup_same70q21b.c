@@ -39,7 +39,13 @@ extern uint32_t _szero;
 extern uint32_t _ezero;
 extern uint32_t _sstack;
 extern uint32_t _estack;
-
+int i =0;
+void SysTick_Handler(){
+	adc_sync_read_channel(&ADC_0, CONF_ADC_0_CHANNEL_0, &adc_val, 2);
+	rin[i] = adc_val;
+	int queue[1024];
+	i = i+1;	
+}
 /** \cond DOXYGEN_SHOULD_SKIP_THIS */
 int main(void);
 /** \endcond */
@@ -61,7 +67,7 @@ void UsageFault_Handler(void) __attribute__((weak, alias("Dummy_Handler")));
 void SVCall_Handler(void) __attribute__((weak, alias("Dummy_Handler")));
 void DebugMonitor_Handler(void) __attribute__((weak, alias("Dummy_Handler")));
 void PendSV_Handler(void) __attribute__((weak, alias("Dummy_Handler")));
-void SysTick_Handler(void) __attribute__((weak, alias("Dummy_Handler")));
+//void SysTick_Handler(void) __attribute__((weak, alias("Dummy_Handler")));
 
 /* Peripherals handlers */
 void SUPC_Handler(void) __attribute__((weak, alias("Dummy_Handler")));
