@@ -6,7 +6,6 @@
 #include "kiss_fftr.h"
 #include "_kiss_fft_guts.h"
 
-float mBuffer[1024];
 kiss_fft_cpx cpx_in[1024]; 
 kiss_fft_cpx cpx_out[1024];
 kiss_fft_scalar rin[1024];
@@ -24,7 +23,6 @@ int main(void){
 	kiss_fftr_cfg cfgi = kiss_fftr_alloc(1024,1,0,0);
 	/* Replace with your application code */
 	dac_sync_enable_channel(&DAC_0, 0);
-	printf("hello");
 	while(1){
 		for(int i =0; i<=1024; i++){	
 	    	//	adc_sync_read_channel(&ADC_0, 0,&adc_val,4);
@@ -34,14 +32,26 @@ int main(void){
 			//io_write("%d\n",adc_val);
 		}
 		kiss_fftr(cfg,rin,cpx_out);
+		/*float scale =1;
+		for(int i =0; i<=512; i++){
+			cpx_out[i].r = cpx_out[i].r * scale;
+			cpx_out[i].r = cpx_out[i].i * scale;
+			scale = scale - 0.001;
+			
+		}
+		for(int i =512; i<=1023; i++){
+			cpx_out[i].r = cpx_out[i].r * scale;
+			cpx_out[i].r = cpx_out[i].i * scale;
+			scale = scale + 0.001;
+		}*/
 		kiss_fftri(cfg, cpx_out ,rin);
-	}
+	
 
 	for (int i =0; i<=1024;i++){
 		int rinI =(int)rin[i];
 		dac_sync_write(&DAC_0, 0, &rinI, 1);
+		}
 	}
-	
 	//fft
 	//inverse fft
 	//dac
