@@ -44,7 +44,8 @@ void SysTick_Handler(){
 	adc_sync_read_channel(&ADC_0, CONF_ADC_0_CHANNEL_0, &adc_val, 2);
 	rin[i] = adc_val;
 	int queue[1024];
-	i = i+1;	
+	i = i+1;
+		
 }
 /** \cond DOXYGEN_SHOULD_SKIP_THIS */
 int main(void);
