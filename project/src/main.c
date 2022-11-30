@@ -33,6 +33,8 @@ int main(void){
 		//	cpx_in[i] = (kiss_fft_cpx){.r = mBuffer[i], .i = mBuffer[i]}; 
 			//io_write("%d\n",adc_val);
 	//	}
+		rin[i++] =dequeue;
+		if(i > 1024){
 		kiss_fftr(cfg,rin,cpx_out);
 		float scale =1;
 		for(int i =0; i<=512; i++){
@@ -47,6 +49,9 @@ int main(void){
 			scale = scale + 0.001;
 		}
 		kiss_fftri(cfg, cpx_out ,rin);
+		i =0;
+		}
+		
 	
 
 	for (int i =0; i<=1024;i++){

@@ -45,7 +45,6 @@ void SysTick_Handler(){
 	rin[i] = adc_val;
 	int queue[1024];
 	i = i+1;
-		
 }
 /** \cond DOXYGEN_SHOULD_SKIP_THIS */
 int main(void);
