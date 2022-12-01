@@ -28,8 +28,7 @@
  */
 
 #include "same70q21b.h"
-#include "utils_list.h"
-#include "adc_payload.h"
+
 
 /* Initialize segments */
 extern uint32_t _sfixed;
@@ -41,16 +40,7 @@ extern uint32_t _szero;
 extern uint32_t _ezero;
 extern uint32_t _sstack;
 extern uint32_t _estack;
-int i =0;
-struct list_discriptor q; 
-void SysTick_Handler(){
-	struct adc_payload *new_val = malloc(8);
-	adc_sync_read_channel(&ADC_0, CONF_ADC_0_CHANNEL_0, &adc_val, 2);
-	//rin[i] = adc_val;
-	//i = i+1;
-	list_insert_at_end(q, adc_val);
-	
-}
+
 /** \cond DOXYGEN_SHOULD_SKIP_THIS */
 int main(void);
 /** \endcond */
@@ -73,6 +63,9 @@ void SVCall_Handler(void) __attribute__((weak, alias("Dummy_Handler")));
 void DebugMonitor_Handler(void) __attribute__((weak, alias("Dummy_Handler")));
 void PendSV_Handler(void) __attribute__((weak, alias("Dummy_Handler")));
 //void SysTick_Handler(void) __attribute__((weak, alias("Dummy_Handler")));
+
+void SysTick_Handler();
+
 
 /* Peripherals handlers */
 void SUPC_Handler(void) __attribute__((weak, alias("Dummy_Handler")));
