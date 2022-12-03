@@ -24,12 +24,25 @@ void SysTick_Handler(){
 	struct adc_payload *newval = malloc(sizeof(struct adc_payload));
 	list_insert_at_end(&q, newval);
 	newval->val=adc_val;
-	struct adc_payload* dq2 =list_remove_head(&q2);
-	if(dq2 != NULL){
-		dac_sync_write(&DAC_0, 0, &dq2->val, 1);
-		free(dq2);
-	}
 
+
+#if 0
+	struct adc_payload* dq2 =list_remove_head(&q2);
+	static uint16_t val;
+//	int err=dac_sync_write(&DAC_0, 0, &val, 1);
+	val++;
+	val %= 0xfff;
+	if(dq2 != NULL){
+		if(dq2->val!= 0){
+//			int err=dac_sync_write(&DAC_0, 0, &dq2->val, 1);
+//			if(err != 0) {
+//				while(0);
+//			}
+		}
+		free(dq2);
+		
+	}
+#endif
 }
 int main(void){
 	asm ("cpsid i");
@@ -39,7 +52,7 @@ int main(void){
 	/* Initializes MCU, drivers and middleware */
 	atmel_start_init();
 	*(uint32_t*)0xE000E010 = 7;
-	*(uint32_t*)0xE000E014 = 0xffffff;
+	*(uint32_t*)0xE000E014 = 0xffff;
 	adc_sync_enable_channel(&ADC_0, CONF_ADC_0_CHANNEL_0);
 	kiss_fftr_cfg cfg = kiss_fftr_alloc(1024, 0 ,0,0 );
 	kiss_fftr_cfg cfgi = kiss_fftr_alloc(1024,1,0,0);
@@ -59,6 +72,7 @@ int main(void){
 		struct adc_payload* dq =list_remove_head(&q);
 		asm("cpsie i");
 
+
 		if (dq == NULL){
 			continue;
 		}else{
@@ -66,6 +80,11 @@ int main(void){
 			free(dq);
 		}
 		if(i >= 1024){
+		uint16_t temp_buf[1024];
+		for(int k = 0; k < 1024; k++){
+			temp_buf[k] = rin[k];
+		}
+		dac_sync_write(&DAC_0, 0, temp_buf, 1024);
 		kiss_fftr(cfg,rin,cpx_out);
 		/*float scale =1;
 		for(int i =0; i<=512; i++){
@@ -79,24 +98,26 @@ int main(void){
 			cpx_out[i].i = cpx_out[i].i * scale;
 			scale = scale + 0.001;
 		}*/
-		for (int j =0; j <= 1024; j++){
+		/*for (int j =0; j <= 1024; j++){
 			if (rin[j] <= 3394){
 				rin[j] = 0;
 			} 
-		}
+		}*/
 		kiss_fftri(cfg, cpx_out ,rin);
 		i =0;
 		}
 	
+#if 0
 	for(int f =0; f<= 1024; f++){
-		struct adc_payload *new_val = malloc(8);
+		struct adc_payload *newval = malloc(8);
 		newval->val=rin[f];	
 		asm("cpsid i");
+		asm("isb");
 		list_insert_at_end(&q2, newval);
 		asm("cpsie i");
 
 	}
-		
+#endif		
 	
 
 	}
